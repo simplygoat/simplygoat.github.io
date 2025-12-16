@@ -1,0 +1,332 @@
+<html>
+	<head>
+		<title>SI-Picker</title>
+		<style>
+* {
+	font-family: "Inter", sans-serif;
+	color: #FFF;
+	background-color: #222;
+}
+body {
+	height: 100%;
+	margin: 0;
+}
+body, form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: .5em;
+}
+
+input[type=submit] {
+	border: 2px solid #CCC;
+	border-radius: 10px;
+}
+#result {
+	position: relative;
+	height: 12em;
+	width: 12em;
+	border: 2px solid #CCC;
+	background-color: #444;
+	text-align: center;
+}
+#name {
+	display: block;
+	background-color: inherit;
+	font-size: x-large;
+	position: relative;
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+#augment {
+	position: absolute;
+	bottom: .5em;
+	width: 100%;
+}
+		</style>
+	</head>
+  <form name="query">
+		<div>
+			<label for="complexity">Complexity:</label>
+			<select id="complexity" name="complexity">
+				<option value="any" selected>Any</option>
+				<option value="low">Low</option>
+				<option value="mid">Moderate</option>
+				<option value="high">High(+)</option>
+				<option value="nothigh">Low or Moderate</option>
+				<option value="notlow">Moderate or High</option>
+			</select>
+		</div>
+		<input type="submit" value="Random"></input>
+	</form>
+	<div id="result" style="display: none">
+		<span id="name"></span>
+		<span id="augment"></span>
+	</div>
+	<script>
+const spirits = [
+	{
+		name: "Lightning's Swift Strike",
+		complexity: "low",
+		augments:[{
+			name: "Immense",
+			complexity: "mid"
+		},{
+			name: "Pandemonium",
+			complexity: "mid"
+		},{
+			name: "Sparking",
+			complexity: "mid"
+		},{
+			name: "Wind",
+			complexity: "mid"
+		}]
+	},{
+    name: "River Surges in Sunlight",
+    complexity: "low",
+    augments:[{
+			name: "Haven",
+			complexity: "mid"
+		},{
+			name: "Sunshine",
+			complexity: "mid"
+		},{
+			name: "Travel",
+			complexity: "mid"
+		}]
+  },{
+		name: "Shadows Flicker Like Flame",
+		complexity: "low",
+		augments:[{
+			name: "Amorphous",
+			complexity: "low"
+		},{
+			name: "Darkfire",
+			complexity: "mid"
+		},{
+			name: "Foreboding",
+			complexity: "mid"
+		},{
+			name: "Madness",
+			complexity: "mid"
+		},{
+			name: "Reach",
+			complexity: "low"
+		}]
+	},{
+    name: "Vital Strength of the Earth",
+    complexity: "low",
+    augments:[{
+			name: "Might",
+			complexity: "mid"
+		},{
+			name: "Nourishing",
+			complexity: "mid"
+		},{
+			name: "Resilience",
+			complexity: "mid"
+		}]
+  },{
+    name: "A Spread of Rampant Green",
+    complexity: "mid",
+    augments:[{
+			name: "Regrowth",
+			complexity: "mid"
+		},{
+			name: "Tangles",
+			complexity: "mid"
+		}]
+  },{
+    name: "Thunderspeaker",
+    complexity: "mid",
+    augments:[{
+			name: "Tactician",
+			complexity: "mid"
+		},{
+			name: "Warrior",
+			complexity: "high"
+		}]
+  },{
+		name: "Bringer of Dreams and Nightmares",
+		complexity: "high",
+		augments:[{
+			name: "Violence",
+			complexity: "high"
+		},{
+			name: "Enticing",
+			complexity: "high"
+		}]
+	},{
+		name: "Ocean's Hungry Grasp",
+		complexity: "high",
+		augments:[{
+			name: "Deeps",
+			complexity: "high"
+		}]
+	},{
+		name: "Keeper of the Forbidden Wilds",
+		complexity: "mid",
+		augments:[{
+			name: "Spreading Hostility",
+			complexity: "mid"
+		}]
+	},{
+		name: "Sharp Fangs Behind the Leaves",
+		complexity: "mid",
+		augments:[{
+			name: "Encirlce",
+			complexity: "mid"
+		}, {
+      name: "Unconstrained",
+      complexity: "low"
+    }]
+	},{
+		name: "Heart of the Wildfire",
+		complexity: "mid",
+		augments:[{
+			name: "Transforming",
+			complexity: "high"
+		}]
+	},{
+		name: "Serpent Slumbering Beneath the Island",
+		complexity: "high",
+		augments:[{
+			name: "Locus",
+			complexity: "high"
+		}]
+	},{
+		name: "Grinning Trickster Stirs Up Trouble",
+		complexity: "mid"
+	},{
+		name: "Lure of the Deep Wilderness",
+		complexity: "mid",
+		augments:[{
+			name: "Lair",
+			complexity: "high"
+		}]
+	},{
+		name: "Many Minds Move as One",
+		complexity: "mid"
+	},{
+		name: "Shifting Memory of Ages",
+		complexity: "mid",
+		augments:[{
+			name: "Intensify",
+			complexity: "high"
+		},{
+      name: "Mentor",
+      complexity: "high"
+    }]
+	},{
+		name: "Stone's Unyielding Defiance",
+		complexity: "mid"
+	},{
+		name: "Volcano Looming High",
+		complexity: "mid"
+	},{
+		name: "Shroud of Silent Mist",
+		complexity: "high",
+		augments:[{
+			name: "Stranded",
+			complexity: "high"
+		}]
+	},{
+		name: "Vengeance as a Burning Plague",
+		complexity: "mid"
+	},{
+		name: "Fractured Days Split the Sky",
+		complexity: "high"
+	},{
+		name: "Starlight Seeks Its Form",
+		complexity: "high"
+	},{
+		name: "Downpour Drenches the World",
+		complexity: "high"
+	},{
+		name: "Finder of Paths Unseen",
+		complexity: "high"
+	},{
+		name: "Devouring Teeth Lurk Underfoot",
+		complexity: "low"
+	},{
+		name: "Eyes Watch from the Trees",
+		complexity: "low"
+	},{
+		name: "Fathomless Mud of the Swamp",
+		complexity: "low"
+	},{
+		name: "Rising Heat of Stone and Sand",
+		complexity: "low"
+	},{
+		name: "Ember-Eyed Behemoth",
+		complexity: "mid"
+	},{
+		name: "Heart-Vigil",
+		complexity: "mid"
+	},{
+		name: "Towering Roots of the Jungle",
+		complexity: "mid"
+	},{
+		name: "Breath of Darkness Down Your Spine",
+		complexity: "high"
+	},{
+		name: "Relentless Gaze of the Sun",
+		complexity: "high"
+	},{
+		name: "Wandering Voice Keens Delirium",
+		complexity: "high"
+	},{
+		name: "Wounded Waters Bleeding",
+		complexity: "high"
+	},{
+		name: "Dances Up Earthquakes",
+		complexity: "high"
+	}
+];
+const matches = function(target, spirit) {
+	if (target == "any") return true;
+	else if (target == spirit.complexity) return true;
+	else if (target == "nothigh" && spirit.complexity != "high") return true;
+	else if (target == "notlow" && spirit.complexity != "low") return true;
+	else return false;
+}
+
+const getList = function(target) {
+	return spirits.map(s => {
+		const spirit = { name: s.name, augments: [] };
+		if (matches(target, s)) spirit.augments.push("base");
+		if (s.augments) spirit.augments.push(...s.augments.filter(a => matches(target,a)).map(a => a.name));
+		return spirit;
+	}).filter(s => s.augments && s.augments.length);
+}
+
+const randomElement = function(array) {
+	return array[Math.floor(Math.random() * array.length)];
+}
+
+const render = function(name, augment) {
+	document.getElementById("result").style.display = "block";
+	document.getElementById("name").innerText = name;
+	const augmentNode = document.getElementById("augment");
+	if (augment == "base") {
+		augmentNode.style.display = "none";
+	} else {
+		augmentNode.style.display = "block";
+		augmentNode.innerText = augment;
+	}
+}
+
+document.forms.query.addEventListener("submit", e => {
+	e.preventDefault();
+	const data = new FormData(e.target);
+	const complexity = data.get("complexity");
+	const list = getList(complexity);
+	const spirit = randomElement(list);
+	const augment = randomElement(spirit.augments);
+	render(spirit.name, augment);
+});
+	</script>
+</html>
